@@ -65,21 +65,19 @@ export async function fetchCardData() {
     const data = await Promise.all([
       invoiceCountPromise,
       customerCountPromise,
-      // invoiceStatusPromise,
+      invoiceStatusPromise,
     ]);
-    const data2 = await invoiceStatusPromise;
-    console.log('data2: ', data2);
 
     const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
     const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
-    // const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? '0');
-    // const totalPendingInvoices = formatCurrency(data[2].rows[0].pending ?? '0');
+    const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? '0');
+    const totalPendingInvoices = formatCurrency(data[2].rows[0].pending ?? '0');
 
     return {
       numberOfCustomers,
       numberOfInvoices,
-      totalPaidInvoices: 0,
-      totalPendingInvoices: 0,
+      totalPaidInvoices,
+      totalPendingInvoices,
     };
   } catch (error) {
     console.error('Database Error:', error);
